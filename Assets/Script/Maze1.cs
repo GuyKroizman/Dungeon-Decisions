@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Maze1 : MonoBehaviour {
+	public enum TILES{Empty, Wall, Monster};
+
 	public int mazeWidth = 5;
 	public int mazeHeight = 5;
 	public GameObject wall;
 	public GameObject floor;
 	public GameObject startPlace;
 	public GameObject endPlace;
+
+	private CharController character;
 
 	private int startX;
 	private int startY;
@@ -27,6 +31,7 @@ public class Maze1 : MonoBehaviour {
 	void Start(){
 		_width = (2*mazeWidth)+1;
 		_height = (2*mazeHeight)+1;
+		character = Camera.main.GetComponent<CharController>();
 		Generate();
 		DrawMaze();
 		FindEndPoints();
@@ -114,12 +119,12 @@ public class Maze1 : MonoBehaviour {
 				if(maze[i][j]==1){
 					GameObject go = Instantiate(wall) as GameObject;
 					go.transform.parent = transform;
-					go.transform.localPosition = new Vector3(i, j, 0);
+					go.transform.localPosition = new Vector3(i, -j, 0);
 
 				}else if(maze[i][j]==0){
 					GameObject go = Instantiate(floor) as GameObject;
 					go.transform.parent = transform;
-					go.transform.localPosition = new Vector3(i, j, 0);
+					go.transform.localPosition = new Vector3(i, -j, 0);
 
 				}
 
@@ -137,14 +142,18 @@ public class Maze1 : MonoBehaviour {
 
 	public void PlaceCamera(){
 		Camera.main.transform.position = startPlace.transform.position;
-		if(maze[startX-1][startY]==0){
+		if(maze[startX-1][startY]==0){		// Looking left
 			Camera.main.transform.rotation = Quaternion.Euler(0,270,90);
-		}else if(maze[startX+1][startY]==0){
+			character.SetDir(CharController.DIRECTIONS.W);
+		}else if(maze[startX+1][startY]==0){ // Looking right
 			Camera.main.transform.rotation = Quaternion.Euler(0,90,270);
-		}else if(maze[startX][startY-1]==0){
-			Camera.main.transform.rotation = Quaternion.Euler(90, 180, 0);
-		}else if(maze[startX][startY+1]==0){
+			character.SetDir(CharController.DIRECTIONS.E);
+		}else if(maze[startX][startY-1]==0){ // Looking up
 			Camera.main.transform.rotation = Quaternion.Euler(270,0,0);
+			character.SetDir(CharController.DIRECTIONS.N);
+		}else if(maze[startX][startY+1]==0){ // Looking down
+			Camera.main.transform.rotation = Quaternion.Euler(90, 180, 0);
+			character.SetDir(CharController.DIRECTIONS.S);
 		}
 	}
 
@@ -176,11 +185,38 @@ public class Maze1 : MonoBehaviour {
 		Vector2 start = endPoints[Random.Range(0, endPoints.Count)];
 		startX = (int)start.x;
 		startY = (int)start.y;
-		startPlace.transform.localPosition = new Vector3(start.x, start.y, 0);
+		startPlace.transform.localPosition = new Vector3(start.x, -start.y, 0);
 		Vector2 end;
 		do{
 			end = endPoints[Random.Range(0, endPoints.Count)];
-			endPlace.transform.localPosition = new Vector3(end.x, end.y, 0);
+			endPlace.transform.localPosition = new Vector3(end.x, -end.y, 0);
 		}while(end==start);
+	}
+
+	private void SetTileActions(){
+		//if monster is in next tile set attack and flee
+		//else, if in next tile is wall, turn left and right
+		//else, if in next tile is nothing, forward and turn right
+		CharController.DIRECTIONS dir = character.dir;
+		int nextTile;
+		if(dir == CharController.DIRECTIONS.N){
+			nextTile = maze[character.x][character.y-1];
+		}else if(dir == CharController.DIRECTIONS.S){
+			nextTile = maze[character.x][character.y+1];
+		}
+		else if(dir == CharController.DIRECTIONS.W){
+			nextTile = maze[character.x-1][character.y];
+		}
+		else if(dir == CharController.DIRECTIONS.E){
+			nextTile = maze[character.x+1][character.y];
+		}
+
+		if(nextTile==TILES.Empty){
+			character.SetActions(CharController.ACTIONS.Forward, CharController.ACTIONS.TurnRight);
+		}else if(nextTile==TILES.Wall){
+			character.SetActions(CharController.ACTIONS.TurnLeft, CharController.ACTIONS.TurnRight);
+		}else if(nextTile==TILES.Monster){
+			character.SetActions(CharController.ACTIONS.Attack, CharController.ACTIONS.Flee);
+		}
 	}
 }
