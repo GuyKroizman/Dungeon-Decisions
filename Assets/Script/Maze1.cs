@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class Maze1 : MonoBehaviour {
 	public int mazeWidth = 5;
 	public int mazeHeight = 5;
@@ -9,6 +10,7 @@ public class Maze1 : MonoBehaviour {
 	public GameObject floor;
 	public GameObject startPlace;
 	public GameObject endPlace;
+	public GameObject caveWormGameObject;
 
 	private int startX;
 	private int startY;
@@ -24,6 +26,7 @@ public class Maze1 : MonoBehaviour {
 	private int _width;
 	private int _height;
 
+
 	void Start(){
 		_width = (2*mazeWidth)+1;
 		_height = (2*mazeHeight)+1;
@@ -31,6 +34,7 @@ public class Maze1 : MonoBehaviour {
 		DrawMaze();
 		FindEndPoints();
 		PlaceCamera();
+		PositionEnemies ();
 	}
 
 	void Generate(){
@@ -183,4 +187,34 @@ public class Maze1 : MonoBehaviour {
 			endPlace.transform.localPosition = new Vector3(end.x, end.y, 0);
 		}while(end==start);
 	}
+
+	public Vector2 getRandomUnoccupiedPosition() 
+	{
+		bool positionOccuppied = false;
+		var randomXPosition = 0;
+		var randomYPosition = 0;
+		var unoccupiedPosition = new Vector2();
+
+		while (positionOccuppied) 
+		{
+			randomXPosition = Random.Range (0, _width - 2);	
+			randomYPosition = Random.Range (0, _height - 2);
+			bool positionOccupied = IsEmpty (randomXPosition, randomYPosition);
+		}
+
+		unoccupiedPosition.x = randomXPosition;
+		unoccupiedPosition.y = randomYPosition;
+
+		return unoccupiedPosition;
+	}
+
+	public void PositionEnemies()
+	{
+		var unoccupiedPosition = getRandomUnoccupiedPosition ();
+		var cw = caveWormGameObject.GetComponent<CaveWorm> ();
+		cw.x = unoccupiedPosition.x;
+		cw.y = unoccupiedPosition.y;
+	}
+
 }
+
