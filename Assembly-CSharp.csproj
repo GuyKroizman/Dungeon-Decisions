@@ -46,11 +46,14 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Alien.cs" />
      <Compile Include="Assets\CaveWorm.cs" />
      <Compile Include="Assets\FT_CaveWorm\Script\PlayAnimation.cs" />
      <Compile Include="Assets\FT_CaveWorm\Script\SubstanceGUI.cs" />
+     <Compile Include="Assets\LifeForm.cs" />
      <Compile Include="Assets\PlayerController.cs" />
      <Compile Include="Assets\Script\Maze1.cs" />
+     <Compile Include="Assets\Spider.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
  </Reference>

@@ -4,7 +4,7 @@ using System.Collections;
 public class CaveWorm : MonoBehaviour {
 	public int x;
 	public int y;
-
+	
 	public uint health;
 
 	// Use this for initialization

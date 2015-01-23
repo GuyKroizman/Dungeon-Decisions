@@ -11,6 +11,8 @@ public class Maze1 : MonoBehaviour {
 	public GameObject startPlace;
 	public GameObject endPlace;
 	public GameObject caveWormGameObject;
+	public GameObject spiderGameObject;
+	public GameObject alienGameObject;
 
 	private int startX;
 	private int startY;
@@ -211,9 +213,24 @@ public class Maze1 : MonoBehaviour {
 	public void PositionEnemies()
 	{
 		var unoccupiedPosition = getRandomUnoccupiedPosition ();
+
 		var cw = caveWormGameObject.GetComponent<CaveWorm> ();
-		cw.x = unoccupiedPosition.x;
-		cw.y = unoccupiedPosition.y;
+		cw.x = (int)unoccupiedPosition.x;
+		cw.y = (int)unoccupiedPosition.y;
+
+		unoccupiedPosition = getRandomUnoccupiedPosition ();
+
+		var alien = alienGameObject.GetComponent<Alien> ();
+		alien.x = unoccupiedPosition.x;
+		alien.y = unoccupiedPosition.y;
+
+		unoccupiedPosition = getRandomUnoccupiedPosition ();
+
+		var spider = spiderGameObject.GetComponent<Spider> ();
+		spider.x = unoccupiedPosition.x;
+		spider.y = unoccupiedPosition.y;
+
+
 	}
 
 }
