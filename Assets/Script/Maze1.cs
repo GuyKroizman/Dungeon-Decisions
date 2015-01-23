@@ -7,8 +7,17 @@ public class Maze1 : MonoBehaviour {
 	public int mazeHeight = 5;
 	public GameObject wall;
 	public GameObject floor;
+	public GameObject startPlace;
+	public GameObject endPlace;
+
+	private int startX;
+	private int startY;
+	private int endX;
+	private int endY;
 
 	private List<int> moves = new List<int>();
+
+	private List<Vector2> endPoints = new List<Vector2>();
 
 	private int[][] maze;
 	//private moves;
@@ -20,7 +29,8 @@ public class Maze1 : MonoBehaviour {
 		_height = (2*mazeHeight)+1;
 		Generate();
 		DrawMaze();
-		Debug.Log(maze);
+		FindEndPoints();
+		PlaceCamera();
 	}
 
 	void Generate(){
@@ -38,37 +48,30 @@ public class Maze1 : MonoBehaviour {
 		moves.Add(y_pos+(x_pos*_width));
 		while(moves.Count>0){
 			string possibleDirections = "";
-			//if((maze[x_pos+2][y_pos] == 1) && (x_pos+2!=0) && (x_pos+2!=_height-1)){
 			if((x_pos+2>=0) && (x_pos+2<=_height-1)){
 				if(maze[x_pos+2][y_pos] == 1){
 					possibleDirections += 'S';
 				}
 			}
-			//if((x_pos-2!=_height-1)){
-
-			//	if((maze[x_pos-2][y_pos] == 1) && (x_pos-2!=0)){
-
-			//if((x_pos-2!=_height-1) && (maze[x_pos-2][y_pos] == 1) && (x_pos-2!=0)){
 			if((x_pos-2<=_height-1) && (x_pos-2>=0)){
 				if((maze[x_pos-2][y_pos] == 1)){
 					possibleDirections += 'N';
 				}
 			}
 
-			//if((maze[x_pos][y_pos-2]==1) && (y_pos-2!=0) && (y_pos-2!=_width-1)){
 			if((y_pos-2>=0) && (y_pos-2<=_width-1)){
 				if(maze[x_pos][y_pos-2]==1){
 					possibleDirections += 'W';
 				}
 			}
-			//if((maze[x_pos][y_pos+2]==1) && (y_pos+2!=0) && (y_pos+2!=_width-1)){
+
 			if((y_pos+2>=0) && (y_pos+2<=_width-1)){
 				if(maze[x_pos][y_pos+2]==1){
 					possibleDirections += 'E';
 				}
 
 			}
-		
+			
 			if(possibleDirections.Length > 0){
 				int move = Random.Range(0, possibleDirections.Length);
 				switch(possibleDirections[move]){
@@ -101,23 +104,83 @@ public class Maze1 : MonoBehaviour {
 				y_pos = back%_width;
 			}
 		}
+
+
 	}
 
 	void DrawMaze(){
 		for(int i=0; i< _width; i++){
 			for(int j=0; j<_height;j++){
-				Debug.Log(maze[i][j]);
 				if(maze[i][j]==1){
 					GameObject go = Instantiate(wall) as GameObject;
-					go.transform.position = new Vector3(i, j, 0);
 					go.transform.parent = transform;
+					go.transform.localPosition = new Vector3(i, j, 0);
+
 				}else if(maze[i][j]==0){
 					GameObject go = Instantiate(floor) as GameObject;
-					go.transform.position = new Vector3(i, j, 0);
 					go.transform.parent = transform;
+					go.transform.localPosition = new Vector3(i, j, 0);
+
 				}
 
 			}
 		}
+	}
+
+	public bool IsEmpty(int x, int y){
+		if(maze[x][y]==0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public void PlaceCamera(){
+		Camera.main.transform.position = startPlace.transform.position;
+		if(maze[startX-1][startY]==0){
+			Camera.main.transform.rotation = Quaternion.Euler(0,270,90);
+		}else if(maze[startX+1][startY]==0){
+			Camera.main.transform.rotation = Quaternion.Euler(0,90,270);
+		}else if(maze[startX][startY-1]==0){
+			Camera.main.transform.rotation = Quaternion.Euler(90, 180, 0);
+		}else if(maze[startX][startY+1]==0){
+			Camera.main.transform.rotation = Quaternion.Euler(270,0,0);
+		}
+	}
+
+	private void FindEndPoints(){
+		for(int x=1;x<_width-1;x++){
+			for(int y=1;y<_height-1;y++){
+				if(maze[x][y]==0){
+					int walls = 0;
+					if(maze[x-1][y]==1){
+						walls++;
+					}
+					if(maze[x+1][y]==1){
+						walls++;
+					}
+					if(maze[x][y+1]==1){
+						walls++;
+					}
+					if(maze[x][y-1]==1){
+						walls++;
+					}
+					
+					if(walls>=3){
+						endPoints.Add(new Vector2(x,y));
+					}
+				}
+			}
+		}
+
+		Vector2 start = endPoints[Random.Range(0, endPoints.Count)];
+		startX = (int)start.x;
+		startY = (int)start.y;
+		startPlace.transform.localPosition = new Vector3(start.x, start.y, 0);
+		Vector2 end;
+		do{
+			end = endPoints[Random.Range(0, endPoints.Count)];
+			endPlace.transform.localPosition = new Vector3(end.x, end.y, 0);
+		}while(end==start);
 	}
 }
