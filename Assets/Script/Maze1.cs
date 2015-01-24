@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class Maze1 : MonoBehaviour {
 	public const int Empty = 0;
 	public const int Wall = 1;
@@ -13,6 +14,9 @@ public class Maze1 : MonoBehaviour {
 	public GameObject floor;
 	public GameObject startPlace;
 	public GameObject endPlace;
+	public GameObject caveWormGameObject;
+	public GameObject spiderGameObject;
+	public GameObject alienGameObject;
 
 	private CharController character;
 
@@ -30,6 +34,7 @@ public class Maze1 : MonoBehaviour {
 	private int _width;
 	private int _height;
 
+
 	void Start(){
 		_width = (2*mazeWidth)+1;
 		_height = (2*mazeHeight)+1;
@@ -38,7 +43,11 @@ public class Maze1 : MonoBehaviour {
 		DrawMaze();
 		FindEndPoints();
 		PlaceCamera();
+<<<<<<< HEAD
 		SetTileActions();
+=======
+		PositionEnemies ();
+>>>>>>> origin/master
 	}
 
 	void Generate(){
@@ -197,6 +206,7 @@ public class Maze1 : MonoBehaviour {
 		}while(end==start);
 	}
 
+<<<<<<< HEAD
 	public void SetTileActions(){
 		//if monster is in next tile set attack and flee
 		//else, if in next tile is wall, turn left and right
@@ -224,3 +234,50 @@ public class Maze1 : MonoBehaviour {
 		}
 	}
 }
+=======
+	public Vector2 getRandomUnoccupiedPosition() 
+	{
+		bool positionOccuppied = false;
+		var randomXPosition = 0;
+		var randomYPosition = 0;
+		var unoccupiedPosition = new Vector2();
+
+		while (positionOccuppied) 
+		{
+			randomXPosition = Random.Range (0, _width - 2);	
+			randomYPosition = Random.Range (0, _height - 2);
+			bool positionOccupied = IsEmpty (randomXPosition, randomYPosition);
+		}
+
+		unoccupiedPosition.x = randomXPosition;
+		unoccupiedPosition.y = randomYPosition;
+
+		return unoccupiedPosition;
+	}
+
+	public void PositionEnemies()
+	{
+		var unoccupiedPosition = getRandomUnoccupiedPosition ();
+
+		var cw = caveWormGameObject.GetComponent<CaveWorm> ();
+		cw.x = (int)unoccupiedPosition.x;
+		cw.y = (int)unoccupiedPosition.y;
+
+		unoccupiedPosition = getRandomUnoccupiedPosition ();
+
+		var alien = alienGameObject.GetComponent<Alien> ();
+		alien.x = unoccupiedPosition.x;
+		alien.y = unoccupiedPosition.y;
+
+		unoccupiedPosition = getRandomUnoccupiedPosition ();
+
+		var spider = spiderGameObject.GetComponent<Spider> ();
+		spider.x = unoccupiedPosition.x;
+		spider.y = unoccupiedPosition.y;
+
+
+	}
+
+}
+
+>>>>>>> origin/master
