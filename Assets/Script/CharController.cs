@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class CharController : MonoBehaviour {
@@ -11,6 +12,9 @@ public class CharController : MonoBehaviour {
 	public GameObject attackUI;
 	public GameObject fleeUI;
 	public GameObject timer;
+
+	public Color actionColor1;
+	public Color actionColor2;
 
 	public Maze1 maze;
 
@@ -145,15 +149,26 @@ public class CharController : MonoBehaviour {
 
 	public void SetAction(ACTIONS action, int id){
 		if(action==ACTIONS.Forward){
+			if(id==1){
+				forwardUI.transform.GetChild(0).GetComponent<Image>().color = actionColor1;
+			}else{
+				forwardUI.transform.GetChild(0).GetComponent<Image>().color = actionColor2;
+			}
 			forwardUI.SetActive(true);
 		}else if(action==ACTIONS.TurnRight){
+			if(id==1){
+				turnRightUI.transform.GetChild(0).GetComponent<Image>().color = actionColor1;
+			}else{
+				turnRightUI.transform.GetChild(0).GetComponent<Image>().color = actionColor2;
+			}
 			turnRightUI.SetActive(true);
 		}else if(action==ACTIONS.TurnLeft){
+			if(id==1){
+				turnLeftUI.transform.GetChild(0).GetComponent<Image>().color = actionColor1;
+			}else{
+				turnLeftUI.transform.GetChild(0).GetComponent<Image>().color = actionColor2;
+			}
 			turnLeftUI.SetActive(true);
-		}else if(action==ACTIONS.Attack){
-			attackUI.SetActive(true);
-		}else if(action==ACTIONS.Flee){
-			fleeUI.SetActive(true);
 		}
 	}
 
