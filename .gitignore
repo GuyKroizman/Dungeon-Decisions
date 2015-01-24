@@ -1,0 +1,6 @@
+*.csproj
+Temp/UnityLockfile
+Temp/__EditModeScene
+Assembly-UnityScript-vs.unityproj
+Assembly-CSharp.csproj
+Assembly-CSharp-vs.csproj
