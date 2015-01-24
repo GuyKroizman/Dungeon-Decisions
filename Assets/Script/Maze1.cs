@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-
 public class Maze1 : MonoBehaviour {
 	public const int Empty = 0;
 	public const int Wall = 1;
@@ -16,10 +15,13 @@ public class Maze1 : MonoBehaviour {
 	public GameObject floor;
 	public GameObject startPlace;
 	public GameObject endPlace;
+<<<<<<< HEAD
 
 	public GameObject caveWormGameObject;
 	public GameObject spiderGameObject;
 	public GameObject alienGameObject;
+=======
+>>>>>>> origin/master
 
 	private CharController character;
 
@@ -37,7 +39,6 @@ public class Maze1 : MonoBehaviour {
 	private int _width;
 	private int _height;
 
-
 	void Start(){
 		_width = (2*mazeWidth)+1;
 		_height = (2*mazeHeight)+1;
@@ -48,7 +49,10 @@ public class Maze1 : MonoBehaviour {
 		FindEndPoints();
 		PlaceCamera();
 		SetTileActions();
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 	}
 
 	private void Generate(){
@@ -225,7 +229,10 @@ public class Maze1 : MonoBehaviour {
 		}while(end==start);
 	}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 	public void SetTileActions(){
 		//if monster is in next tile set attack and flee
 		//else, if in next tile is wall, turn left and right
@@ -252,6 +259,7 @@ public class Maze1 : MonoBehaviour {
 			character.SetActions(CharController.ACTIONS.Attack, CharController.ACTIONS.Flee);
 		}
 	}
+<<<<<<< HEAD
 
 
 	public Vector2 getRandomUnoccupiedPosition() 
@@ -303,3 +311,6 @@ public class Maze1 : MonoBehaviour {
 	}
 
 }
+=======
+}
+>>>>>>> origin/master
