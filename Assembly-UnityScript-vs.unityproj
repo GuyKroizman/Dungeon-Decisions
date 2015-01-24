@@ -49,10 +49,6 @@
      <Compile Include="Assets\FT_CaveWorm\Script\SampleSceneGUI.js" />
      <Compile Include="Assets\FT_CaveWorm\Script\StopCAM.js" />
      <Compile Include="Assets\FT_CaveWorm\Script\VisibleBG.js" />
-<<<<<<< HEAD
-     <Compile Include="Assets\fantasySpider\FS_rotateThis.js" />
-=======
->>>>>>> origin/master
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
  </Reference>

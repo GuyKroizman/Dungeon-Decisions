@@ -15,13 +15,10 @@ public class Maze1 : MonoBehaviour {
 	public GameObject floor;
 	public GameObject startPlace;
 	public GameObject endPlace;
-<<<<<<< HEAD
 
 	public GameObject caveWormGameObject;
 	public GameObject spiderGameObject;
 	public GameObject alienGameObject;
-=======
->>>>>>> origin/master
 
 	private CharController character;
 
@@ -49,10 +46,6 @@ public class Maze1 : MonoBehaviour {
 		FindEndPoints();
 		PlaceCamera();
 		SetTileActions();
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 	}
 
 	private void Generate(){
@@ -229,10 +222,6 @@ public class Maze1 : MonoBehaviour {
 		}while(end==start);
 	}
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 	public void SetTileActions(){
 		//if monster is in next tile set attack and flee
 		//else, if in next tile is wall, turn left and right
@@ -259,7 +248,7 @@ public class Maze1 : MonoBehaviour {
 			character.SetActions(CharController.ACTIONS.Attack, CharController.ACTIONS.Flee);
 		}
 	}
-<<<<<<< HEAD
+
 
 
 	public Vector2 getRandomUnoccupiedPosition() 
@@ -311,6 +300,3 @@ public class Maze1 : MonoBehaviour {
 	}
 
 }
-=======
-}
->>>>>>> origin/master
