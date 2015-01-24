@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Maze1 : MonoBehaviour {
-	public enum TILES{Empty, Wall, Monster};
+	public const int Empty = 0;
+	public const int Wall = 1;
+	public const int Monster = 2;
 
 	public int mazeWidth = 5;
 	public int mazeHeight = 5;
@@ -36,6 +38,7 @@ public class Maze1 : MonoBehaviour {
 		DrawMaze();
 		FindEndPoints();
 		PlaceCamera();
+		SetTileActions();
 	}
 
 	void Generate(){
@@ -186,6 +189,7 @@ public class Maze1 : MonoBehaviour {
 		startX = (int)start.x;
 		startY = (int)start.y;
 		startPlace.transform.localPosition = new Vector3(start.x, -start.y, 0);
+		character.SetPos(startX, startY);
 		Vector2 end;
 		do{
 			end = endPoints[Random.Range(0, endPoints.Count)];
@@ -193,12 +197,12 @@ public class Maze1 : MonoBehaviour {
 		}while(end==start);
 	}
 
-	private void SetTileActions(){
+	public void SetTileActions(){
 		//if monster is in next tile set attack and flee
 		//else, if in next tile is wall, turn left and right
 		//else, if in next tile is nothing, forward and turn right
 		CharController.DIRECTIONS dir = character.dir;
-		int nextTile;
+		int nextTile = 0;
 		if(dir == CharController.DIRECTIONS.N){
 			nextTile = maze[character.x][character.y-1];
 		}else if(dir == CharController.DIRECTIONS.S){
@@ -211,11 +215,11 @@ public class Maze1 : MonoBehaviour {
 			nextTile = maze[character.x+1][character.y];
 		}
 
-		if(nextTile==TILES.Empty){
+		if(nextTile==Empty){
 			character.SetActions(CharController.ACTIONS.Forward, CharController.ACTIONS.TurnRight);
-		}else if(nextTile==TILES.Wall){
+		}else if(nextTile==Wall){
 			character.SetActions(CharController.ACTIONS.TurnLeft, CharController.ACTIONS.TurnRight);
-		}else if(nextTile==TILES.Monster){
+		}else if(nextTile==Monster){
 			character.SetActions(CharController.ACTIONS.Attack, CharController.ACTIONS.Flee);
 		}
 	}

@@ -24,10 +24,10 @@ public class Action : MonoBehaviour {
 
 	public void EndSelectedAnimation(){
 		//TODO should do the action now
-		Destroy(gameObject);
+		gameObject.SetActive(false);
 	}
 
 	public void EndNotSelectedAnimation(){
-		Destroy(gameObject);
+		gameObject.SetActive(false);
 	}
 }
