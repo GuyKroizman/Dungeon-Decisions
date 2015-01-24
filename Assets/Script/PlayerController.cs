@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour {
 	public KeyCode key1;
 	public KeyCode key2;
 
-
+	public GameObject notVoted_ui;
 	public GameObject voted_ui;
 
 
@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour {
 	public void ResetDecision(){
 		madeDecision = false;
 		voted_ui.SetActive(false);
+		notVoted_ui.SetActive(true);
 		Debug.Log(name+" icon is active"+voted_ui.activeSelf);
 	}
 
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour {
 		character.Vote(num);
 		madeDecision=true;
 		voted_ui.SetActive(true);
+		notVoted_ui.SetActive(false);
 
 		if(character.votes>=3){
 			character.DoAction();
