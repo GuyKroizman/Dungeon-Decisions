@@ -6,7 +6,9 @@ using System.Collections.Generic;
 public class Maze1 : MonoBehaviour {
 	public const int Empty = 0;
 	public const int Wall = 1;
-	public const int Monster = 2;
+	public const int CaveWorm = 2;
+	public const int Alien = 3;
+	public const int Spider = 4;
 
 	public int mazeWidth = 5;
 	public int mazeHeight = 5;
@@ -14,6 +16,7 @@ public class Maze1 : MonoBehaviour {
 	public GameObject floor;
 	public GameObject startPlace;
 	public GameObject endPlace;
+
 	public GameObject caveWormGameObject;
 	public GameObject spiderGameObject;
 	public GameObject alienGameObject;
@@ -40,17 +43,15 @@ public class Maze1 : MonoBehaviour {
 		_height = (2*mazeHeight)+1;
 		character = Camera.main.GetComponent<CharController>();
 		Generate();
+		//PositionEnemies();
 		DrawMaze();
 		FindEndPoints();
 		PlaceCamera();
-<<<<<<< HEAD
 		SetTileActions();
-=======
-		PositionEnemies ();
->>>>>>> origin/master
+
 	}
 
-	void Generate(){
+	private void Generate(){
 		maze = new int[_width][];
 		for(int i=0; i<_width; i++){
 			maze[i] = new int[_height];
@@ -128,16 +129,34 @@ public class Maze1 : MonoBehaviour {
 	void DrawMaze(){
 		for(int i=0; i< _width; i++){
 			for(int j=0; j<_height;j++){
-				if(maze[i][j]==1){
+				if(maze[i][j]==Wall){
 					GameObject go = Instantiate(wall) as GameObject;
 					go.transform.parent = transform;
 					go.transform.localPosition = new Vector3(i, -j, 0);
 
-				}else if(maze[i][j]==0){
+				}else if(maze[i][j]==Empty){
 					GameObject go = Instantiate(floor) as GameObject;
 					go.transform.parent = transform;
 					go.transform.localPosition = new Vector3(i, -j, 0);
 
+				}else if(maze[i][j]==CaveWorm){
+					GameObject go = Instantiate(floor) as GameObject;
+					go.transform.parent = transform;
+					go.transform.localPosition = new Vector3(i, -j, 0);
+
+					caveWormGameObject.transform.localPosition = new Vector3(i, -j, 0);
+				}else if(maze[i][j]==Alien){
+					GameObject go = Instantiate(floor) as GameObject;
+					go.transform.parent = transform;
+					go.transform.localPosition = new Vector3(i, -j, 0);
+
+					alienGameObject.transform.localPosition = new Vector3(i, -j, 0.5f);
+				}else if(maze[i][j]==Spider){
+					GameObject go = Instantiate(floor) as GameObject;
+					go.transform.parent = transform;
+					go.transform.localPosition = new Vector3(i, -j, 0);
+
+					spiderGameObject.transform.localPosition = new Vector3(i, -j, 0.5f);
 				}
 
 			}
@@ -145,7 +164,7 @@ public class Maze1 : MonoBehaviour {
 	}
 
 	public bool IsEmpty(int x, int y){
-		if(maze[x][y]==0){
+		if(maze[x][y]==Empty){
 			return true;
 		}else{
 			return false;
@@ -206,7 +225,7 @@ public class Maze1 : MonoBehaviour {
 		}while(end==start);
 	}
 
-<<<<<<< HEAD
+
 	public void SetTileActions(){
 		//if monster is in next tile set attack and flee
 		//else, if in next tile is wall, turn left and right
@@ -229,24 +248,24 @@ public class Maze1 : MonoBehaviour {
 			character.SetActions(CharController.ACTIONS.Forward, CharController.ACTIONS.TurnRight);
 		}else if(nextTile==Wall){
 			character.SetActions(CharController.ACTIONS.TurnLeft, CharController.ACTIONS.TurnRight);
-		}else if(nextTile==Monster){
+		}else if(nextTile==Alien || nextTile==Spider || nextTile==CaveWorm){
 			character.SetActions(CharController.ACTIONS.Attack, CharController.ACTIONS.Flee);
 		}
 	}
-}
-=======
+
+
 	public Vector2 getRandomUnoccupiedPosition() 
 	{
-		bool positionOccuppied = false;
+		bool positionOccuppied = true;
 		var randomXPosition = 0;
 		var randomYPosition = 0;
 		var unoccupiedPosition = new Vector2();
 
 		while (positionOccuppied) 
 		{
-			randomXPosition = Random.Range (0, _width - 2);	
-			randomYPosition = Random.Range (0, _height - 2);
-			bool positionOccupied = IsEmpty (randomXPosition, randomYPosition);
+			randomXPosition = Random.Range (1, _width - 1);	
+			randomYPosition = Random.Range (1, _height - 1);
+			positionOccuppied = !IsEmpty(randomXPosition, randomYPosition);
 		}
 
 		unoccupiedPosition.x = randomXPosition;
@@ -258,26 +277,29 @@ public class Maze1 : MonoBehaviour {
 	public void PositionEnemies()
 	{
 		var unoccupiedPosition = getRandomUnoccupiedPosition ();
+		Debug.Log("Worm: "+unoccupiedPosition.x+", "+unoccupiedPosition.y);
 
-		var cw = caveWormGameObject.GetComponent<CaveWorm> ();
+		CaveWorm cw = caveWormGameObject.GetComponent<CaveWorm> ();
 		cw.x = (int)unoccupiedPosition.x;
 		cw.y = (int)unoccupiedPosition.y;
+		maze[cw.x][cw.y] = CaveWorm;
 
 		unoccupiedPosition = getRandomUnoccupiedPosition ();
+		Debug.Log("Alien: "+unoccupiedPosition.x+", "+unoccupiedPosition.y);
 
 		var alien = alienGameObject.GetComponent<Alien> ();
-		alien.x = unoccupiedPosition.x;
-		alien.y = unoccupiedPosition.y;
+		alien.x = (int)unoccupiedPosition.x;
+		alien.y = (int)unoccupiedPosition.y;
+		maze[alien.x][alien.y] = Alien;
 
 		unoccupiedPosition = getRandomUnoccupiedPosition ();
+		Debug.Log("Spider: "+unoccupiedPosition.x+", "+unoccupiedPosition.y);
 
 		var spider = spiderGameObject.GetComponent<Spider> ();
-		spider.x = unoccupiedPosition.x;
-		spider.y = unoccupiedPosition.y;
-
+		spider.x = (int)unoccupiedPosition.x;
+		spider.y = (int)unoccupiedPosition.y;
+		maze[spider.x][spider.y] = Spider;
 
 	}
 
 }
-
->>>>>>> origin/master

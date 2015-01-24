@@ -7,6 +7,10 @@ public class PlayerController : MonoBehaviour {
 	public KeyCode key1;
 	public KeyCode key2;
 
+
+	public GameObject voted_ui;
+
+
 	private CharController character;
 
 	public 
@@ -20,17 +24,28 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		if(!madeDecision){
 			if(Input.GetKeyDown(key1)){
-				character.Vote(-1);
-				madeDecision=true;
+				SetDecision(-1);
 			}
 			if(Input.GetKeyDown(key2)){
-				character.Vote(1);
-				madeDecision=true;
+				SetDecision(1);
 			}
 		}
 	}
 
 	public void ResetDecision(){
 		madeDecision = false;
+		voted_ui.SetActive(false);
+		Debug.Log(name+" icon is active"+voted_ui.activeSelf);
 	}
+
+	private void SetDecision(int num){
+		character.Vote(num);
+		madeDecision=true;
+		voted_ui.SetActive(true);
+
+		if(character.votes>=3){
+			character.DoAction();
+		}
+	}
+
 }

@@ -220,3 +220,5 @@ Temp/
 *.csproj
 *.csproj
 *.sln
+*.csproj
+*.csproj

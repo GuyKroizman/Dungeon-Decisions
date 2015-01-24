@@ -1,20 +1,8 @@
 ﻿<Properties>
-<<<<<<< HEAD
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\PlayerController.cs">
-    <Files>
-      <File FileName="Assets\Script\Maze1.cs" Line="212" Column="1" />
-      <File FileName="Assets\Script\Action.cs" Line="27" Column="3" />
-      <File FileName="Assets\Script\CharController.cs" Line="200" Column="5" />
-      <File FileName="Assets\Script\PlayerController.cs" Line="12" Column="9" />
-      <File FileName="Assets\Script\Timer.cs" Line="16" Column="29" />
-=======
-  <MonoDevelop.Ide.Workspace />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Maze1.cs">
     <Files>
-      <File FileName="Assets\Script\Maze1.cs" Line="216" Column="31" />
-      <File FileName="Assets\CaveWorm.cs" Line="12" Column="16" />
->>>>>>> origin/master
+      <File FileName="Assets\Script\Maze1.cs" Line="147" Column="71" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

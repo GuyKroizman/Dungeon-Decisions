@@ -36,6 +36,12 @@ public class CharController : MonoBehaviour {
 		}
 	}
 
+	public int votes{
+		get{
+			return numOfVotes;
+		}
+	}
+
 
 	private DIRECTIONS lookingDir;
 
@@ -48,6 +54,10 @@ public class CharController : MonoBehaviour {
 	//private GameObject action1;
 	//private GameObject action2;
 
+	private PlayerController player1;
+	private PlayerController player2;
+	private PlayerController player3;
+
 	public void SetPos(int xPos, int yPos){
 		_x = xPos;
 		_y = yPos;
@@ -56,17 +66,15 @@ public class CharController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		maze = FindObjectOfType<Maze1>();
+
+		player1 = transform.GetChild(0).GetComponent<PlayerController>();
+		player2 = transform.GetChild(1).GetComponent<PlayerController>();
+		player3 = transform.GetChild(2).GetComponent<PlayerController>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		/*if(Input.GetKeyDown(KeyCode.UpArrow)){
-			MoveForward();
-		}else if(Input.GetKeyDown(KeyCode.LeftArrow)){
-			TurnLeft();
-		}else if(Input.GetKeyDown(KeyCode.RightArrow)){
-			TurnRight();
-		}*/
+
 	}
 
 	private void MoveForward(){
@@ -117,19 +125,17 @@ public class CharController : MonoBehaviour {
 		}
 	}
 
-	private void Attack(){
-
-	}
-
-	private void Flee(){
-
-	}
-
 	public void SetDir(DIRECTIONS dir){
 		lookingDir = dir;
 	}
 
 	public void SetActions(ACTIONS actionA, ACTIONS actionB){
+		forwardUI.SetActive(false);
+		turnRightUI.SetActive(false);
+		turnLeftUI.SetActive(false);
+		attackUI.SetActive(false);
+		fleeUI.SetActive(false);
+
 		SetAction(actionA,1);
 		action1 = actionA;
 		SetAction(actionB,2);
@@ -154,9 +160,10 @@ public class CharController : MonoBehaviour {
 	public void Vote(int num){
 		vote+=num;
 		numOfVotes++;
-		if(numOfVotes>=3){
+		Debug.Log("Voted. Num: "+numOfVotes);
+		/*if(numOfVotes>=3){
 			DoAction();
-		}
+		}*/
 	}
 	
 	public void DoAction(){
@@ -172,6 +179,8 @@ public class CharController : MonoBehaviour {
 			}
 		}
 
+
+
 		if(selectedAction == ACTIONS.Forward){
 			forwardUI.animation.Play("SelectedAction");
 			MoveForward();
@@ -181,28 +190,29 @@ public class CharController : MonoBehaviour {
 		}else if(selectedAction == ACTIONS.TurnRight){
 			turnRightUI.animation.Play("SelectedAction");
 			TurnRight();
-		}else if(selectedAction == ACTIONS.Attack){
+		}/*else if(selectedAction == ACTIONS.Attack){
 			attackUI.animation.Play("SelectedAction");
 			Attack();
 		}else if(selectedAction == ACTIONS.Flee){
 			fleeUI.animation.Play("SelectedAction");
 			Flee();
-		}
+		}*/
+		AfterAction();
+		maze.SetTileActions();
+	}
 
+	private void AfterAction(){
 		vote=0;
 		numOfVotes=0;
-
-		for(int i=0;i<transform.childCount;i++){
-			transform.GetChild(i).GetComponent<PlayerController>().ResetDecision();
-		}
-
+		
 		timer.SetActive(false);
-		/*forwardUI.SetActive(false);
-		turnRightUI.SetActive(false);
-		turnLeftUI.SetActive(false);
-		attackUI.SetActive(false);
-		fleeUI.SetActive(false);*/
+		Debug.Log("Reseting player 1");
+		player1.ResetDecision();
+		Debug.Log("Reseting player 2");
+		player2.ResetDecision();
+		Debug.Log("Reseting player 3");
+		player3.ResetDecision();
 
-		maze.SetTileActions();
+
 	}
 }
