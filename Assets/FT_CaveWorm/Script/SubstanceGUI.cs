@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
 
 public class SubstanceGUI : MonoBehaviour {
 
@@ -14,7 +13,7 @@ public class SubstanceGUI : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		creatureSubstance = creature.renderer.sharedMaterial as ProceduralMaterial;
+		creatureSubstance = GetComponent<Renderer>().sharedMaterial as ProceduralMaterial;
 		creatureProperties = creatureSubstance.GetProceduralPropertyDescriptions();
 	
 	}

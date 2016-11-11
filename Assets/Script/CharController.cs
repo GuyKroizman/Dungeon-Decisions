@@ -197,13 +197,13 @@ public class CharController : MonoBehaviour {
 
 
 		if(selectedAction == ACTIONS.Forward){
-			forwardUI.animation.Play("SelectedAction");
+			forwardUI.GetComponent<Animation>().Play("SelectedAction");
 			MoveForward();
 		}else if(selectedAction == ACTIONS.TurnLeft){
-			turnLeftUI.animation.Play("SelectedAction");
+			turnLeftUI.GetComponent<Animation>().Play("SelectedAction");
 			TurnLeft();
 		}else if(selectedAction == ACTIONS.TurnRight){
-			turnRightUI.animation.Play("SelectedAction");
+			turnRightUI.GetComponent<Animation>().Play("SelectedAction");
 			TurnRight();
 		}/*else if(selectedAction == ACTIONS.Attack){
 			attackUI.animation.Play("SelectedAction");

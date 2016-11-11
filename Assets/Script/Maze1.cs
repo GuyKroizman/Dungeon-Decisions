@@ -24,8 +24,6 @@ public class Maze1 : MonoBehaviour {
 
 	private int startX;
 	private int startY;
-	private int endX;
-	private int endY;
 
 	private List<int> moves = new List<int>();
 
